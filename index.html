@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliffford Modding</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #00d4ff 0%, #7b68ee 50%, #ff00ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .logo-container {
+            margin-bottom: 3rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            height: auto;
+            filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.5));
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #00d4ff 0%, #7b68ee 50%, #ff00ff 100%);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .services {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.8);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.3);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            margin-top: 5rem;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #00d4ff;
+            border-radius: 50%;
+            animation: float-particle 10s infinite;
+        }
+
+        @keyframes float-particle {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translate(100px, -500px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1.2rem;
+            }
+            .services h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <section class="hero">
+        <div class="logo-container">
+            <svg width="300" height="250" viewBox="0 0 300 250" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#7b68ee;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- Eye outline - äußere Form -->
+                <path d="M 50 90 Q 80 40, 150 40 Q 220 40, 250 90 Q 220 140, 150 140 Q 80 140, 50 90 Z" 
+                      fill="none" stroke="url(#gradient)" stroke-width="6"/>
+                
+                <!-- Innerer Kreis -->
+                <circle cx="150" cy="90" r="50" fill="none" stroke="url(#gradient)" stroke-width="5"/>
+                
+                <!-- Dreieck in der Mitte -->
+                <path d="M 150 60 L 125 110 L 175 110 Z" fill="none" stroke="url(#gradient)" stroke-width="4"/>
+                
+                <!-- Text -->
+                <text x="150" y="180" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="url(#gradient)" text-anchor="middle">CLIFFFORD</text>
+                <text x="150" y="215" font-family="Arial, sans-serif" font-size="32" font-weight="900" fill="url(#gradient)" text-anchor="middle">MODDING</text>
+            </svg>
+        </div>
+        
+        <h1 class="gradient-text">Willkommen bei Cliffford Modding</h1>
+        <p class="tagline">Schneller. Stärker. Besser. Dein Vorteil.</p>
+        <button class="cta-button" onclick="window.open('https://discord.gg/RqQZzaAy24', '_blank')">
+            Join Discord Server
+        </button>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="gradient-text">Unsere Services</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3 class="gradient-text">Premium Modding</h3>
+                <p>Individuelle Modding-Services nach deinen Wünschen. Von Custom Outfits bis zu speziellen Anpassungen.<br><strong class="gradient-text" style="font-size: 1.3rem;">Preis auf Anfrage</strong></p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">💰</div>
+                <h3 class="gradient-text">Free Heist Raubüberfälle</h3>
+                <p>Kostenlose Heist-Durchführungen für maximale Belohnungen ohne Aufwand.<br><strong class="gradient-text" style="font-size: 1.3rem;">FREE</strong></p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">💸</div>
+                <h3 class="gradient-text">RP und Money Drop</h3>
+                <p>Schnelle RP- und Money-Drops für deinen Account. <span style="color: #ff0000; font-weight: bold;">(RISKY)</span><br><strong class="gradient-text" style="font-size: 1.3rem;">FREE</strong></p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🏎️</div>
+                <h3 class="gradient-text">Free Auto Tuning nach Wunsch</h3>
+                <p>Kostenlose Fahrzeug-Anpassungen ganz nach deinen Vorstellungen und Wünschen.<br><strong class="gradient-text" style="font-size: 1.3rem;">FREE</strong></p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">🔓</div>
+                <h3 class="gradient-text">UnlockAll</h3>
+                <p>Schalte alle Inhalte, Fahrzeuge und Items frei. Inklusive Rang 120!<br><strong class="gradient-text" style="font-size: 1.3rem;">Nur 9,99€</strong></p>
+            </div>
+            
+            <div class="service-card">
+                <div class="service-icon">💬</div>
+                <h3 class="gradient-text">Support & Beratung</h3>
+                <p>24/7 Support für alle deine Fragen und individuelle Beratung zu unseren Services.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" style="padding-top: 2rem;">
+        <h2 class="gradient-text">Community & Crew</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <div style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(255, 0, 255, 0.1) 100%); padding: 3rem 2rem; border-radius: 20px; border: 1px solid rgba(0, 212, 255, 0.3);">
+                <div style="font-size: 4rem; margin-bottom: 1.5rem;">👥</div>
+                <h3 style="font-size: 2rem; margin-bottom: 1rem;" class="gradient-text">Join Cliffford Modding Crew</h3>
+                <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; line-height: 1.8;">
+                    Werde Teil der offiziellen Cliffford Modding Crew in GTA Online!<br>
+                    Gemeinsam sind wir stärker und dominieren die Stadt.<br>
+                    Exklusive Events, Heists und Support für alle Crew-Mitglieder!
+                </p>
+                <button class="cta-button" onclick="window.open('https://socialclub.rockstargames.com/crew/cliffford_modding/hierarchy', '_blank')" style="display: inline-block;">
+                    Crew Beitreten
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" style="padding-top: 2rem;">
+        <h2 class="gradient-text">Zahlungsmethoden</h2>
+        <p style="text-align: center; margin-bottom: 3rem; opacity: 0.9;">Sichere und einfache Bezahlung mit deiner bevorzugten Methode</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 3rem; flex-wrap: wrap; padding: 2rem;">
+            <div style="background: white; padding: 1.5rem 2rem; border-radius: 15px; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 212, 255, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <svg height="40" width="120" viewBox="0 0 150 60" xmlns="http://www.w3.org/2000/svg">
+                    <text x="20" y="35" font-family="Verdana, sans-serif" font-size="28" font-weight="bold" fill="#003087">Pay</text>
+                    <text x="75" y="35" font-family="Verdana, sans-serif" font-size="28" font-weight="bold" fill="#009CDE">Pal</text>
+                </svg>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem 2rem; border-radius: 15px; display: flex; align-items: center; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 212, 255, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                <svg style="height: 40px; width: auto;" viewBox="0 0 250 80" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="230" height="60" rx="10" fill="#FF0066"/>
+                    <text x="125" y="50" font-family="Arial, sans-serif" font-size="22" font-weight="bold" fill="white" text-anchor="middle">Sofortüberweisung</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div style="max-width: 800px; margin: 0 auto 2rem auto; padding: 1.5rem; background: rgba(255, 0, 0, 0.1); border: 1px solid rgba(255, 0, 0, 0.3); border-radius: 15px;">
+            <p style="color: #ff4444; font-weight: bold; margin-bottom: 0.5rem;">⚠️ Wichtiger Hinweis</p>
+            <p style="font-size: 0.9rem; opacity: 0.9; line-height: 1.6;">
+                Wir distanzieren uns von jeglicher Haftung bei Account-Sperren oder Bans. Die Nutzung unserer Services erfolgt auf eigene Verantwortung. Wir übernehmen keine Garantie für die Sicherheit deines Accounts.
+            </p>
+        </div>
+        <p>&copy; 2025 Cliffford Modding. <span class="gradient-text">Dein Game, unser Service.</span></p>
+    </footer>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
